@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/tnea/static/css/main.92d1d8f8.css",
+    "main.js": "/tnea/static/js/main.b9090217.js",
+    "index.html": "/tnea/index.html",
+    "main.92d1d8f8.css.map": "/tnea/static/css/main.92d1d8f8.css.map",
+    "main.b9090217.js.map": "/tnea/static/js/main.b9090217.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.92d1d8f8.css",
+    "static/js/main.b9090217.js"
+  ]
+}
