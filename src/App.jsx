@@ -7,6 +7,7 @@ import branchCodes from "./lookup/branchCodes.json";
 
 const { Option } = Select;
 
+// eslint-disable-next-line
 Number.prototype.between = function (a, b) {
   let min = Math.min.apply(Math, [a, b]),
     max = Math.max.apply(Math, [a, b]);

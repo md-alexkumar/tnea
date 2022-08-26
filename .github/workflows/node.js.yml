@@ -13,7 +13,7 @@ jobs:
  
     strategy:
       matrix:
-        node-version: [10.x, 12.x, 14.x, 15.x] # The node versions we are going to support
+        node-version: [12.x, 14.x, 15.x, 16.x] # The node versions we are going to support
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
  
     steps:

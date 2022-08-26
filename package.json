@@ -1,6 +1,7 @@
 {
   "name": "tnea",
-  "version": "0.1.0",
+  "version": "1.0.0",
+  "homepage": "tnea",
   "private": true,
   "dependencies": {
     "antd": "^4.22.6",
