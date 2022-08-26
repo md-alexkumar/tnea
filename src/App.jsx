@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
-import { Table, Input, Slider, Button, Select } from "antd";
+import { Table, Input, Slider, Button, Select, Col, Row } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
-import _debounce from "lodash/debounce";
 import colleges from "./lookup/colleges.json";
 import branchCodes from "./lookup/branchCodes.json";
 
@@ -30,16 +29,30 @@ const initialFilter = {
   ST: [0, 0],
 };
 
+const communityCodes = [
+  "OC",
+  "BC",
+  "BCM",
+  "MBC",
+  "MBCDNC",
+  "MBCV",
+  "SC",
+  "SCA",
+  "ST",
+];
+
 const columns = [
-  {
-    title: "College Code",
-    dataIndex: "coc",
-    key: "coc",
-  },
   {
     title: "College Name",
     dataIndex: "con",
     key: "con",
+    fixed: "left",
+    width: 200,
+  },
+  {
+    title: "College Code",
+    dataIndex: "coc",
+    key: "coc",
   },
   {
     title: "Branch Code",
@@ -146,9 +159,6 @@ const App = () => {
     setFilters((prevFilter) => ({ ...prevFilter, [name]: value }));
   };
 
-  const _onFilter = (name) => {
-    return _debounce(onFilter(name), 10);
-  };
 
   const resetSlider = (name) => (evt) => {
     setFilters((prevFilter) => ({ ...prevFilter, [name]: [0, 0] }));
@@ -160,12 +170,10 @@ const App = () => {
   const resetFilter = () => setFilters(initialFilter);
 
   const renderInput = (name, label) => (
-    <Input
-      onChange={onFilter(name)}
-      addonBefore={label}
-      value={filters[name]}
-      style={{ width: "25%", marginRight: ".5rem" }}
-    />
+    <>
+      <span>{label}</span>
+      <Input onChange={onFilter(name)} value={filters[name]} />
+    </>
   );
 
   const renderResetFilter = () => (
@@ -185,7 +193,7 @@ const App = () => {
           placeholder="Please select"
           onChange={onFilter(name)}
           value={filters[name] || []}
-          style={{ width: "25%", marginRight: ".5rem", marginBottom: "1rem" }}
+          className="w-100"
           filterOption={filterMultiSelectOption}
         >
           {opts.map((opt) => (
@@ -209,7 +217,7 @@ const App = () => {
           min={0}
           max={200}
           value={filters[name]}
-          onChange={_onFilter(name)}
+          onChange={onFilter(name)}
           range={{ draggableTrack: true }}
         />
       </div>
@@ -227,28 +235,29 @@ const App = () => {
   const renderSearch = () => {
     return (
       <>
-        {renderInput("con", "College Name")}
-        {renderInput("coc", "College code")}
-
-        {renderMultiSelect("brc", "Branch code  ", branchCodes)}
-
-        {renderResetFilter()}
-
-        {renderSlider("OC", "OC")}
-        {renderSlider("BC", "BC")}
-        {renderSlider("BCM", "BCM")}
-        {renderSlider("MBC", "MBC")}
-        {renderSlider("MBCDNC", "MBCDNC")}
-        {renderSlider("MBCV", "MBCV")}
-        {renderSlider("SC", "SC")}
-        {renderSlider("SCA", "SCA")}
-        {renderSlider("ST", "ST")}
+        <Row gutter={[16, 16]} align="bottom">
+          <Col xs={24} sm={24} md={12} lg={8} xl={6}>
+            {renderInput("con", "College Name")}
+          </Col>
+          <Col xs={24} sm={24} md={12} lg={8} xl={6}>
+            {renderInput("coc", "College code")}
+          </Col>
+          <Col xs={24} sm={24} md={12} lg={8} xl={6}>
+            {renderMultiSelect("brc", "Branch Name(s)  ", branchCodes)}
+          </Col>
+          <Col xs={24} sm={24} md={12} lg={8} xl={6}>
+            {renderResetFilter()}
+          </Col>
+        </Row>
+        <div className="my-4">
+          {communityCodes.map((comm) => renderSlider(comm, comm))}
+        </div>
       </>
     );
   };
-
   return (
     <>
+      <h2 className="text-center">TNEA 2021 Cut-Off</h2>
       {renderSearch()}
       <Table
         size="small"
@@ -258,6 +267,9 @@ const App = () => {
           showTotal: (total, range) =>
             `${range[0]}-${range[1]} of ${total} items`,
           position: ["topRight", "bottomRight"],
+        }}
+        scroll={{
+          x: 1300,
         }}
         dataSource={fColleges}
       />
